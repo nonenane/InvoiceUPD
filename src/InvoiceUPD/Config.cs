@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace InvoiceUPD
 {
     public class Config
     {
+        public static readonly string PathFile = Application.StartupPath;
+
         public static Procedures hCntMain { get; set; } //осн. коннект
+        public static Procedures hCntMainX14 { get; set; } //осн. коннект
 
         public static string centralText(string str)
         {
@@ -64,5 +69,23 @@ namespace InvoiceUPD
             return newString;
         }
 
+        public static Settings ProgSettngs;
+    }
+
+    public class Settings
+    {
+        public string Path { set; get; }
+
+        public string Login { set; get; }
+     
+        public string Password { set; get; }
+
+        public string ServerK21 { set; get; }
+
+        public string DataBaseK21 { set; get; }
+
+        public string ServerX14 { set; get; }
+
+        public string DataBaseX14 { set; get; }
     }
 }

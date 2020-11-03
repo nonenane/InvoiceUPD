@@ -5,6 +5,8 @@ using Nwuram.Framework.Logging;
 using Nwuram.Framework.Settings.Connection;
 using System.Data;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace InvoiceUPD
 {
@@ -18,24 +20,34 @@ namespace InvoiceUPD
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (args.Length != 0)
-                if (Project.FillSettings(args))
-                {
-                    Config.hCntMain = new Procedures(ConnectionSettings.GetServer(), ConnectionSettings.GetDatabase(), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
+            //if (args.Length != 0)
+            // if (Project.FillSettings(args))
+            //{
+            Config.ProgSettngs = new Settings();
 
-                    Logging.Init(ConnectionSettings.GetServer(), ConnectionSettings.GetDatabase(), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
-                    Logging.StartFirstLevel(1);
-                    Logging.Comment("Вход в программу");
-                    Logging.StopFirstLevel();
+            string jsonString = File.ReadAllText(Config.PathFile + @"\settings.json");
 
-                    Application.Run(new frmMain());
+            Config.ProgSettngs = JsonConvert.DeserializeObject<Settings>(jsonString);
 
-                    Logging.StartFirstLevel(2);
-                    Logging.Comment("Выход из программы");
-                    Logging.StopFirstLevel();
+            //Config.hCntMain = new Procedures(ConnectionSettings.GetServer(), ConnectionSettings.GetDatabase(), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
 
-                    Project.clearBufferFiles();
-                }
+            //Logging.Init(ConnectionSettings.GetServer(), ConnectionSettings.GetDatabase(), ConnectionSettings.GetUsername(), ConnectionSettings.GetPassword(), ConnectionSettings.ProgramName);
+            //Logging.StartFirstLevel(1);
+            //Logging.Comment("Вход в программу");
+            //Logging.StopFirstLevel();
+
+            Config.hCntMain = new Procedures(Config.ProgSettngs.ServerK21, Config.ProgSettngs.DataBaseK21, Config.ProgSettngs.Login, Config.ProgSettngs.Password, "");
+
+            Config.hCntMainX14 = new Procedures(Config.ProgSettngs.ServerX14, Config.ProgSettngs.DataBaseX14, Config.ProgSettngs.Login, Config.ProgSettngs.Password, "");
+
+            Application.Run(new frmMain());
+
+            //Logging.StartFirstLevel(2);
+            //Logging.Comment("Выход из программы");
+            //Logging.StopFirstLevel();
+
+            Project.clearBufferFiles();
+            // }
         }
     }
 }

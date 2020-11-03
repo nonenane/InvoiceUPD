@@ -22,21 +22,7 @@ namespace InvoiceUPD
             pathUnloadTemplateFile = Application.StartupPath + @"\ReportFinish\NewReport";// + ".xls";
 
             Nwuram.Framework.ToExcel.Report reportTemplate = new Nwuram.Framework.ToExcel.Report();
-            //reportTemplate.getCountSheet(pathUnloadTemplateFile);
-
-            //DataTable dtHead = new DataTable();// Config.hCntMain.get_report_upd_head(id);
-            //if (dtHead == null) return;
-            //if (dtHead.Rows.Count == 0) return;
-
-            //DataTable dtBody = new DataTable();// Config.hCntMain.get_report_upd_body(id);
-            //if (dtBody == null) return;
-            //if (dtBody.Rows.Count == 0) return;
-
-            //for (int i = 0; i < 40; i++)
-            //    dtBody.ImportRow(dtBody.Rows[0]);
-
-
-
+            
             #region "Шапка"
 
             reportTemplate.AddSingleValue("@status", "1");
@@ -100,17 +86,6 @@ namespace InvoiceUPD
                 File.Copy(pathUnloadTemplateFile_tmp + ".xls", pathUnloadTemplateFile + "_" + id.ToString() + ".xls", true);
                 File.Delete(pathUnloadTemplateFile_tmp);
                 reportTemplate.OpenFile(pathUnloadTemplateFile + "_" + id.ToString());
-
-                /*
-                reportTemplate = new Nwuram.Framework.ToExcel.Report();
-                int countSHeet = reportTemplate.getCountSheet(pathUnloadTemplateFile_tmp);
-                reportTemplate.AddSingleValue("@count_list", countSHeet.ToString());
-                if (reportTemplate.CreateTemplate(pathUnloadTemplateFile_tmp, pathUnloadTemplateFile, null))
-                {
-                    File.Delete(pathUnloadTemplateFile_tmp + ".xls");
-                    reportTemplate.OpenFile(pathUnloadTemplateFile);
-                }*/
-
             }
         }
         #endregion
