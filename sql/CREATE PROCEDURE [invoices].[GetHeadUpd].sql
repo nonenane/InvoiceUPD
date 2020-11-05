@@ -66,7 +66,51 @@ group by
 ) as a
 
 
+select 
+	a.isSelect,
+	a.id,
+	a.ttn,
+	a.dprihod,	
+	a.id_post,
+	a.namePost,
+	a.inn as inn_original,
+	a.id_operand,
+	a.nameOperand,
+	a.ntypeorg,
+	a.id_otdel,
+	a.sumBuy,
+	a.sumRealiz,
+	a.nameDep,
+	a.Abbriviation,
+	a.id_post1,
+	a.id_post2,
+	a.dprihod as  DocDate,
+	ltrim(rtrim(p.cname)) as namePost1,
+	isnull(trim(d.LegalAdress),'_') as LegalAdress,
+	trim(p.inn)+'/'+isnull(d.KPP,'') as inn,
+	isnull(ltrim(rtrim(pr.cname))+' ','')+','+trim(dr.LegalAdress) as adressPost2,
+	trim(pr.cname) as org_name,
+	trim(dr.LegalAdress) as org_address,
+	trim(pr.inn)+'/'+trim(dr.KPP) as kpp,
+	isnull(trim(d.ResponsiblePerson),'_') as ResponsiblePerson,
+	isnull(trim(d.FIOGlBuh),'_') as FIOGlBuh,
+	isnull(ltrim(rtrim(p.cname))+' ','')+',»ÕÕ/ œœ'+isnull(trim(p.inn),'_')+'/'+isnull(trim(d.KPP),'_') as inn_kpp_post1,
+	isnull(ltrim(rtrim(pr.cname))+' ','')+',»ÕÕ/ œœ'+isnull(trim(pr.inn),'_')+'/'+isnull(trim(dr.KPP),'_') as inn_kpp_post2,
 
+
+	--isnull(ltrim(rtrim(p.cname))+' ','')+isnull('»ÕÕ: '+p.inn+', ','')+isnull(' œœ: '+d.KPP+', ','') 
+	--+isnull(d.LegalAdress+', ','')+isnull('–/Ò˜: '+p.PaymentAccount+', ','')+isnull(' /Ò˜: '+p.CorrelativeAccount+', ','')
+	--+isnull('¡» : '+p.BIK+', ','')+isnull(ltrim(rtrim(p.Bank)) ,'') as Post1ToNalk,
+	'' as Post1ToNalk,
+
+	--isnull(ltrim(rtrim(stor.name))+' ','')+isnull(ltrim(rtrim(pr.cName))+', ' ,'')+isnull('»ÕÕ: '+pr.INN+', ','')+isnull(' œœ: '+pr.KPP+', ','') 
+	--+isnull(pr.Address+', ','')+isnull('–/Ò˜: '+pr.PaymentAccount+', ','')+isnull(' /Ò˜: '+pr.CorrelativeAccount+', ','')
+	--+isnull('¡» : '+pr.BIK+', ','')+isnull(ltrim(rtrim(pr.Bank)) ,'') as Post2ToNalk,
+	''  as Post2ToNalk,
+
+	isnull('»ÕÕ: '+p.inn+', ','')+isnull(' œœ: '+d.KPP+'','') as innkpptoSFPost1,
+	isnull('»ÕÕ: '+pr.inn+', ','')+isnull(' œœ: '+dr.KPP+'','') as innkpptoSFPost2
+from(
 select 
 	cast(0 as bit) as isSelect,	
 	a.id,
@@ -82,35 +126,9 @@ select
 	t.sumBuy,
 	t.sumRealiz,
 	ltrim(rtrim(d.name)) as nameDep,
-	m.Abbriviation
-	-----
-
-	--,a.dprihod as  DocDate,
-	--ltrim(rtrim(sto.name))+' '+ ltrim(rtrim(p.cName)) as namePost1,
-	--isnull(trim(p.Address),'_') as LegalAdress,
-	--trim(p.INN)+'/'+isnull(p.KPP,'') as inn,
-	--isnull(ltrim(rtrim(stor.name))+' ','')+trim(pr.cName)+','+trim(pr.Address) as adressPost2,
-	--ltrim(rtrim(stor.name))+' '+ trim(pr.cName) as org_name,
-	--trim(pr.Address) as org_address,
-	--trim(pr.INN)+'/'+trim(pr.KPP) as kpp,
-	--isnull(trim(p.ContactBoss),'_') as ResponsiblePerson,
-	--isnull(trim(p.ContactBookkeeper),'_') as FIOGlBuh,
-	--isnull(ltrim(rtrim(sto.name))+' ','')+isnull(trim(p.cName),'_')+',»ÕÕ/ œœ'+isnull(trim(p.INN),'_')+'/'+isnull(trim(p.KPP),'_') as inn_kpp_post1,
-	--isnull(ltrim(rtrim(stor.name))+' ','')+isnull(trim(pr.cName),'_')+',»ÕÕ/ œœ'+isnull(trim(pr.INN),'_')+'/'+isnull(trim(pr.KPP),'_') as inn_kpp_post2,
-
-
-	--isnull(ltrim(rtrim(sto.name))+' ','')+isnull(ltrim(rtrim(p.cName))+', ' ,'')+isnull('»ÕÕ: '+p.INN+', ','')+isnull(' œœ: '+p.KPP+', ','') 
-	--+isnull(p.Address+', ','')+isnull('–/Ò˜: '+p.PaymentAccount+', ','')+isnull(' /Ò˜: '+p.CorrelativeAccount+', ','')
-	--+isnull('¡» : '+p.BIK+', ','')+isnull(ltrim(rtrim(p.Bank)) ,'') as Post1ToNalk,
-
-	--isnull(ltrim(rtrim(stor.name))+' ','')+isnull(ltrim(rtrim(pr.cName))+', ' ,'')+isnull('»ÕÕ: '+pr.INN+', ','')+isnull(' œœ: '+pr.KPP+', ','') 
-	--+isnull(pr.Address+', ','')+isnull('–/Ò˜: '+pr.PaymentAccount+', ','')+isnull(' /Ò˜: '+pr.CorrelativeAccount+', ','')
-	--+isnull('¡» : '+pr.BIK+', ','')+isnull(ltrim(rtrim(pr.Bank)) ,'') as Post2ToNalk,
-
-
-	--isnull('»ÕÕ: '+p.INN+', ','')+isnull(' œœ: '+p.KPP+'','') as innkpptoSFPost1,
-	--isnull('»ÕÕ: '+pr.INN+', ','')+isnull(' œœ: '+pr.KPP+'','') as innkpptoSFPost2
-
+	m.Abbriviation,
+	a.id_post as id_post1,
+	m.id_Post as id_post2	
 from
 	dbo.j_allprihod a
 		left join dbo.s_post p on p.id = a.id_post
@@ -125,7 +143,14 @@ from
 		--left join dbo.s_type_org stor on stor.id = pr.id_TypePost
 where
 	@dateStart <= a.dprihod and a.dprihod<=@dateEnd and a.id_operand in (1,2,3,8) and a.id_post is not null and a.ttn is not null
+)as a
+	left join dbo.s_post p on p.id = a.id_post1
+	left join [dbo].[s_DocumentEntries] d on d.id_Supplier = a.id_post1
+	left join [dbo].[s_SettlementAccounts] s on s.id_Supplier = a.id_post1
 
+	left join dbo.s_post pr on pr.id = a.id_post2
+	left join [dbo].[s_DocumentEntries] dr on dr.id_Supplier = a.id_post2
+	left join [dbo].[s_SettlementAccounts] sr on sr.id_Supplier = a.id_post2
 
 DROP TABLE #tmpTovarMove
 

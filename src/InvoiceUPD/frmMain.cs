@@ -77,6 +77,26 @@ namespace InvoiceUPD
 
         private void btPrint_Click(object sender, EventArgs e)
         {
+
+            EnumerableRowCollection<DataRow> rowCollect = dtData.AsEnumerable()
+                .Where(r => r.Field<bool>("isSelect"));
+
+            foreach (DataRow row in rowCollect)
+            {
+                int id = (int)row["id"];
+                DataTable dtBody = Config.hCntMain.GetBodyUpd(id);
+
+                if (dtBody.Rows.Count == 0) continue;
+
+                if (dtBody.Columns.Contains("id_tovar"))
+                    dtBody.Columns.Remove("id_tovar");
+
+                print.printUpd(row, dtBody.Copy(), id);
+
+
+
+            }
+
             /*
             Task<DataTable> task = Config.hCntMain.getNaklReportHead(id);
             task.Wait();

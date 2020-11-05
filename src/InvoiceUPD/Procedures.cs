@@ -111,5 +111,17 @@ namespace InvoiceUPD
 
             return dtResult;
         }
+
+        public DataTable GetBodyUpd(int id_allprihod)
+        {
+            ap.Clear();
+            ap.Add(id_allprihod);
+
+            DataTable dtResult = executeProcedure("[invoices].[GetBodyUpd]",
+                 new string[1] { "@id_allprihod" },
+                 new DbType[1] { DbType.Int32 }, ap);
+
+            return dtResult;
+        }
     }
 }

@@ -15,8 +15,11 @@ namespace InvoiceUPD
         private static string pathTemplateFile = "";
         private static string pathUnloadTemplateFile = "";
         private static string pathUnloadTemplateFile_tmp = "";
-        public static void printUpd(DataTable dtHead, DataTable dtBody, int id)
+        public static void printUpd(DataRow rowHead, DataTable dtBody, int id)
         {
+            DataTable dtHead = rowHead.Table.Clone();
+            dtHead.ImportRow(rowHead);
+
             pathTemplateFile = Application.StartupPath + @"\Report\templateReportUPD";// + ".xls";
             pathUnloadTemplateFile_tmp = Application.StartupPath + @"\ReportFinish\NewReport_tmp";// + ".xls";
             pathUnloadTemplateFile = Application.StartupPath + @"\ReportFinish\NewReport";// + ".xls";
